@@ -8,6 +8,7 @@ with open('secret.json', 'r') as file:
     secret = json.loads(file.read())
     vk = Vk(secret['login'], secret['password'])
 
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -17,11 +18,18 @@ def index():
 @app.route('/stat')
 def stat():
     group = request.args.get('group')
-    average = vk.get_average_posts_data(group, 100)
+    count = request.args.get('count')
+    group_name, group_image = vk.get_profile_info(group)
+    average, data = vk.get_all_statistic(group, int(count))
+    print(json.dumps(data))
     return render_template('index.html', likes=average[0],
                            comments=average[1],
                            reposts=average[2],
-                           views=average[3])
+                           views=average[3],
+                           data=json.dumps(data),
+                           group_name=group_name,
+                           group_image=group_image
+                           )
 
 
 if __name__ == '__main__':

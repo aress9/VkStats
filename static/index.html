@@ -75,7 +75,7 @@
       <div class="row justify-content-center align-self-center">
         <div class="col-md-6 intro-info order-md-first order-last">
           <h2>Лучшее Решение<br>Для Аналитики <span>Сообществ ВК!</span></h2>
-                      <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4" id="getstat-group">
+          <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4" id="getstat-group">
                 <div class="input-group">
                   <input id="group_input" type="search" placeholder="Ссылка ну группу..." aria-describedby="button-addon1" class="form-control border-0 bg-light rounded rounded-pill">
                   <div class="input-group-append">
@@ -83,14 +83,28 @@
                     <script type= "text/javascript">
                       function goToPage()
                       {
-                          var url = "/stat?group=" + document.getElementById('group_input').value;
+                          var url = "/stat?group=" + document.getElementById('group_input').value + "&count=" + document.getElementById('count_input').value;
                           document.location.href = url;
                       }
                     </script>
                   </div>
                 </div>
             </div>
+          <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4" id="getstat-group">
+            <div class="input-group">
+              <style>
+                        input[type=number]::-webkit-inner-spin-button {
+                            opacity: 1
+                        }
 
+
+              </style>
+              <p class="form-control border-0 bg-light rounded-pill">Кол-во постов для сбора</p>
+              <input id="count_input" type="number" value="1" aria-describedby="button-addon1"
+                     style="background-color: #EBF5FA;" class="form-control border-0 rounded rounded-pill" max="100"
+                     min="1">
+            </div>
+          </div>
         </div>
   
         <div class="col-md-6 intro-img order-md-last order-first">

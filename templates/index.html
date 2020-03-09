@@ -17,8 +17,9 @@
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
   <script src="https://www.amcharts.com/lib/4/charts.js"></script>
   <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+  <script src="//www.amcharts.com/lib/4/themes/material.js"></script>
 
-
+  <meta http-equiv="Cache-Control" content="private">
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
@@ -53,7 +54,10 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-            <h1 class="h3 mb-2 text-gray-800">Группа</h1>
+          <div>
+            <img class="mb-3" src="{{ group_image }}">
+            <h1 class="h3 mb-2 text-gray-800">{{ group_name }}</h1>
+          </div>
             
             <hr>
             
@@ -133,144 +137,114 @@
                   <div class="chartdiv" style="height: 23em;"></div>
                 </div>
             </div>
-                
             <script>
-            /**
-             * ---------------------------------------
-             * This demo was created using amCharts 4.
-             * 
-             * For more information visit:
-             * https://www.amcharts.com/
-             * 
-             * Documentation is available at:
-             * https://www.amcharts.com/docs/v4/
-             * ---------------------------------------
-             */
+              am4core.useTheme(am4themes_animated);
+              am4core.useTheme(am4themes_material);
 
-            // Themes begin
-            am4core.useTheme(am4themes_animated);
-            // Themes end
+              var chart = am4core.create("chartdiv", am4charts.XYChart);
 
-            // Create chart instance
-            var chart = am4core.create("chartdiv", am4charts.XYChart);
+              chart.colors.step = 1;
 
-            //
+              chart.data = generateChartData();
 
-            // Increase contrast by taking evey second color
-            chart.colors.step = 2;
+              var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+              dateAxis.renderer.minGridDistance = 1;
 
-            // Add data
-            chart.data = generateChartData();
+              function createAxisAndSeries(field, name, opposite, bullet) {
+                var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+                if(chart.yAxes.indexOf(valueAxis) != 0){
+                  valueAxis.syncWithAxis = chart.yAxes.getIndex(0);
+                }
 
-            // Create axes
-            var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-            dateAxis.renderer.minGridDistance = 50;
+                var series = chart.series.push(new am4charts.LineSeries());
+                series.dataFields.valueY = field;
+                series.dataFields.dateX = "date";
+                series.strokeWidth = 2;
+                series.yAxis = valueAxis;
+                series.name = name;
+                series.tooltipText = "{name}: [bold]{valueY}[/]";
+                series.tensionX = 0.8;
+                series.showOnInit = true;
 
-            // Create series
-            function createAxisAndSeries(field, name, opposite, bullet) {
-              var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-              if(chart.yAxes.indexOf(valueAxis) != 0){
-                valueAxis.syncWithAxis = chart.yAxes.getIndex(0);
+                var interfaceColors = new am4core.InterfaceColorSet();
+
+                switch(bullet) {
+                  case "triangle":
+                    var bullet = series.bullets.push(new am4charts.Bullet());
+                    bullet.width = 12;
+                    bullet.height = 12;
+                    bullet.horizontalCenter = "middle";
+                    bullet.verticalCenter = "middle";
+
+                    var triangle = bullet.createChild(am4core.Triangle);
+                    triangle.stroke = interfaceColors.getFor("background");
+                    triangle.strokeWidth = 2;
+                    triangle.direction = "top";
+                    triangle.width = 12;
+                    triangle.height = 12;
+                    break;
+                  case "rectangle":
+                    var bullet = series.bullets.push(new am4charts.Bullet());
+                    bullet.width = 10;
+                    bullet.height = 10;
+                    bullet.horizontalCenter = "middle";
+                    bullet.verticalCenter = "middle";
+
+                    var rectangle = bullet.createChild(am4core.Rectangle);
+                    rectangle.stroke = interfaceColors.getFor("background");
+                    rectangle.strokeWidth = 2;
+                    rectangle.width = 10;
+                    rectangle.height = 10;
+                    break;
+                  default:
+                    var bullet = series.bullets.push(new am4charts.CircleBullet());
+                    bullet.circle.stroke = interfaceColors.getFor("background");
+                    bullet.circle.strokeWidth = 2;
+                    break;
+                }
+
+                valueAxis.renderer.line.strokeOpacity = 1;
+                valueAxis.renderer.line.strokeWidth = 2;
+                valueAxis.renderer.line.stroke = series.stroke;
+                valueAxis.renderer.labels.template.fill = series.stroke;
+                valueAxis.renderer.opposite = opposite;
               }
 
-              var series = chart.series.push(new am4charts.LineSeries());
-              series.dataFields.valueY = field;
-              series.dataFields.dateX = "date";
-              series.strokeWidth = 2;
-              series.yAxis = valueAxis;
-              series.name = name;
-              series.tooltipText = "{name}: [bold]{valueY}[/]";
-              series.tensionX = 0.8;
-              series.showOnInit = true;
+              createAxisAndSeries("likes", "Лайки", false, "circle");
+              createAxisAndSeries("reposts", "Репосты", false, "triangle")
+              createAxisAndSeries("views", "Просмотры", true, "triangle");
+              createAxisAndSeries("comments", "Комментарии", true, "rectangle");
 
-              var interfaceColors = new am4core.InterfaceColorSet();
+              chart.legend = new am4charts.Legend();
 
-              switch(bullet) {
-                case "triangle":
-                  var bullet = series.bullets.push(new am4charts.Bullet());
-                  bullet.width = 12;
-                  bullet.height = 12;
-                  bullet.horizontalCenter = "middle";
-                  bullet.verticalCenter = "middle";
+              chart.cursor = new am4charts.XYCursor();
 
-                  var triangle = bullet.createChild(am4core.Triangle);
-                  triangle.stroke = interfaceColors.getFor("background");
-                  triangle.strokeWidth = 2;
-                  triangle.direction = "top";
-                  triangle.width = 12;
-                  triangle.height = 12;
-                  break;
-                case "rectangle":
-                  var bullet = series.bullets.push(new am4charts.Bullet());
-                  bullet.width = 10;
-                  bullet.height = 10;
-                  bullet.horizontalCenter = "middle";
-                  bullet.verticalCenter = "middle";
+              function generateChartData() {
+                var chartData = [];
 
-                  var rectangle = bullet.createChild(am4core.Rectangle);
-                  rectangle.stroke = interfaceColors.getFor("background");
-                  rectangle.strokeWidth = 2;
-                  rectangle.width = 10;
-                  rectangle.height = 10;
-                  break;
-                default:
-                  var bullet = series.bullets.push(new am4charts.CircleBullet());
-                  bullet.circle.stroke = interfaceColors.getFor("background");
-                  bullet.circle.strokeWidth = 2;
-                  break;
+                var likes = 1600;
+                var reposts = 2900;
+                var views = 8700;
+                var comments = 5000;
+                var data = {{ data|safe }};
+
+                for (var i = 0; i < data.length; i++) {
+                    chartData.push({
+                      date: i,
+                      likes: data[i]["likes"],
+                      reposts: data[i]["reposts"],
+                      views: data[i]["views"],
+                      comments: data[i]["comments"]
+                    });
+                }
+
+                return chartData;
               }
 
-              valueAxis.renderer.line.strokeOpacity = 1;
-              valueAxis.renderer.line.strokeWidth = 2;
-              valueAxis.renderer.line.stroke = series.stroke;
-              valueAxis.renderer.labels.template.fill = series.stroke;
-              valueAxis.renderer.opposite = opposite;
-            }
-
-            createAxisAndSeries("visits", "Visits", false, "circle");
-            createAxisAndSeries("views", "Views", true, "triangle");
-            createAxisAndSeries("hits", "Hits", true, "rectangle");
-
-            // Add legend
-            chart.legend = new am4charts.Legend();
-
-            // Add cursor
-            chart.cursor = new am4charts.XYCursor();
-
-            // generate some random data, quite different range
-            function generateChartData() {
-              var chartData = [];
-              var firstDate = new Date();
-              firstDate.setDate(firstDate.getDate() - 100);
-              firstDate.setHours(0, 0, 0, 0);
-
-              var visits = 1600;
-              var hits = 2900;
-              var views = 8700;
-
-              for (var i = 0; i < 15; i++) {
-                // we create date objects here. In your data, you can have date strings
-                // and then set format of your dates using chart.dataDateFormat property,
-                // however when possible, use date objects, as this will speed up chart rendering.
-                var newDate = new Date(firstDate);
-                newDate.setDate(newDate.getDate() + i);
-
-                visits += Math.round((Math.random()<0.5?1:-1)*Math.random()*10);
-                hits += Math.round((Math.random()<0.5?1:-1)*Math.random()*10);
-                views += Math.round((Math.random()<0.5?1:-1)*Math.random()*10);
-
-                chartData.push({
-                  date: newDate,
-                  visits: visits,
-                  hits: hits,
-                  views: views
-                });
-              }
-              return chartData;
-            }
+              generateChartData()
             </script>
-            
-            <div class="card shadow mb-4">
+
+          <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Топ пост</h6>
                     <input type="checkbox">
