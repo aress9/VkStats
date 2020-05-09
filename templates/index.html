@@ -3,320 +3,358 @@
 
 <head>
 
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-  <title>SB Admin 2 - Charts</title>
+    <title>{{ group_name }} - VkStat</title>
 
-  <!-- Custom fonts for this template-->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
-  <script src="https://www.amcharts.com/lib/4/charts.js"></script>
-  <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
-  <script src="//www.amcharts.com/lib/4/themes/material.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+    <script src="//www.amcharts.com/lib/4/themes/material.js"></script>
+    <script src="//www.amcharts.com/lib/4/maps.js"></script>
+    <script src="//www.amcharts.com/lib/4/geodata/worldLow.js"></script>
 
-  <meta http-equiv="Cache-Control" content="private">
-  <!-- Custom styles for this template-->
-  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <meta http-equiv="Cache-Control" content="private">
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
 <body id="page-top">
-
-  <!-- Page Wrapper -->
-  <div id="wrapper">
+<div id="wrapper">
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
 
-      <!-- Main Content -->
-      <div id="content">
+        <!-- Main Content -->
+        <div id="content">
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-        <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-          <!-- Topbar Search -->
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fas fa-search fa-sm"></i>
+                <!-- Sidebar Toggle (Topbar) -->
+                <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                    <i class="fa fa-bars"></i>
                 </button>
-              </div>
-            </div>
-          </form>
-        </nav>
-        <div class="container-fluid">
 
-          <!-- Page Heading -->
-          <div>
-            <img class="mb-3" src="{{ group_image }}">
-            <h1 class="h3 mb-2 text-gray-800">{{ group_name }}</h1>
-          </div>
-            
-            <hr>
-            
-            <div class="row">
-                
-                <div class="col-xl-3 col-md-6 mb-4">
-                  <div class="card border-left-info shadow h-100 py-2">
-                    <div class="card-body">
-                      <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                          <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Среднее кол-во лайков</div>
-                          <div class="h5 mb-0 font-weight-bold text-gray-800">{{ likes }}</div>
+                <!-- Topbar Search -->
+                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <div class="input-group">
+                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                               aria-label="Search" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button">
+                                <i class="fas fa-search fa-sm"></i>
+                            </button>
                         </div>
-                        <div class="col-auto">
-                          <i class="fas fa-thumbs-up fa-2x text-gray-300"></i>
-                        </div>
-                      </div>
                     </div>
-                  </div>
+                </form>
+
+            </nav>
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div>
+                    <a href="http://vk.com/{{ group }}">
+                        <img class="mb-3" src="{{ group_image }}">
+                        <h1 class="h3 mb-2 text-gray-800">{{ group_name }}</h1>
+                    </a>
                 </div>
-                
-                <div class="col-xl-3 col-md-6 mb-4">
-                  <div class="card border-left-primary shadow h-100 py-2">
-                    <div class="card-body">
-                      <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                          <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Среднее кол-во репостов</div>
-                          <div class="h5 mb-0 font-weight-bold text-gray-800">{{ reposts }}</div>
+
+                <hr>
+
+                <div class="row">
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-info shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Среднее
+                                            кол-во лайков
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ likes }}</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-thumbs-up fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-auto">
-                          <i class="fas fa-arrow-circle-right fa-2x text-gray-300"></i>
-                        </div>
-                      </div>
                     </div>
-                  </div>
-                </div>
-                
-                <div class="col-xl-3 col-md-6 mb-4">
-                  <div class="card border-left-success shadow h-100 py-2">
-                    <div class="card-body">
-                      <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                          <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Cреднее кол-во просмотров</div>
-                          <div class="h5 mb-0 font-weight-bold text-gray-800">{{ views }}</div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Среднее
+                                            кол-во репостов
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ reposts }}</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-arrow-circle-right fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-auto">
-                          <i class="fas fa-eye fa-2x text-gray-300"></i>
-                        </div>
-                      </div>
                     </div>
-                  </div>
-                </div>
-                
-                <div class="col-xl-3 col-md-6 mb-4">
-                  <div class="card border-left-warning shadow h-100 py-2">
-                    <div class="card-body">
-                      <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                          <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Среднее кол-во комментариев</div>
-                          <div class="h5 mb-0 font-weight-bold text-gray-800">{{ comments }}</div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Cреднее
+                                            кол-во просмотров
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ views }}</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-eye fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-auto">
-                          <i class="fas fa-comments fa-2x text-gray-300"></i>
-                        </div>
-                      </div>
                     </div>
-                  </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Среднее
+                                            кол-во комментариев
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ comments }}</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
+
+                <div class="card shadow mb-4" style="height: 100%">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Общая статистика</h6>
+                    </div>
+                    <div class="card-body">
+                        <div id="chartline1"></div>
+                        <div id="chartline2"></div>
+                        <div id="chartline3"></div>
+                        <div id="chartline4"></div>
+                    </div>
+                </div>
+                <script>
+                    var options = {
+                    series: [{
+                        name: "likes",
+                        data: {{ likes_data }}
+                    }],
+                    chart: {
+                        group: 'stat',
+                        height: 150,
+                        type: 'area'
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    stroke: {
+                        curve: 'straight'
+                    },
+                    xaxis: {
+                        type: 'datetime',
+                        categories: {{ time_data|safe }}
+                    },
+                    tooltip: {
+                        x: {
+                            format: 'dd MMM yyyy'
+                        },
+                    },
+                    };
+                    var chart = new ApexCharts(document.getElementById("chartline1"), options)
+                    chart.render();
+
+                    var options2 = {
+                    series: [{
+                        name: "comments",
+                        data: {{ comments_data }}
+                    }],
+                    chart: {
+                        group: 'stat',
+                        height: 150,
+                        type: 'area'
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    stroke: {
+                        curve: 'straight'
+                    },
+                    xaxis: {
+                        type: 'datetime',
+                        categories: {{ time_data|safe }}
+                    },
+                    tooltip: {
+                        x: {
+                            format: 'dd MMM yyyy'
+                        },
+                    },
+                    };
+
+                    var chart2 = new ApexCharts(document.getElementById("chartline2"), options2)
+                    chart2.render();
+
+                    var options3 = {
+                    series: [{
+                        name: "views",
+                        data: {{ views_data }}
+                    }],
+                    chart: {
+                        group: 'stat',
+                        height: 150,
+                        type: 'area'
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    stroke: {
+                        curve: 'straight'
+                    },
+                    xaxis: {
+                        type: 'datetime',
+                        categories: {{ time_data|safe }}
+                    },
+                    tooltip: {
+                        x: {
+                            format: 'dd MMM yyyy'
+                        },
+                    },
+                    };
+
+                    var chart3 = new ApexCharts(document.getElementById("chartline3"), options3)
+                    chart3.render();
+
+                    var options4 = {
+                    series: [{
+                        name: "reposts",
+                        data: {{ reposts_data }}
+                    }],
+                    chart: {
+                        height: 150,
+                        type: 'area'
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    stroke: {
+                        curve: 'straight'
+                    },
+                    xaxis: {
+                        type: 'datetime',
+                        categories: {{ time_data|safe }}
+                    },
+                    tooltip: {
+                        x: {
+                            format: 'dd MMM yyyy'
+                        },
+                    },
+                    };
+
+                    var chart3 = new ApexCharts(document.getElementById("chartline4"), options4)
+                    chart3.render();
+
+                </script>
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">География подписчиков</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="mapdiv"></div>
+                    </div>
+                </div>
+                <script>
+                    var map = am4core.create("mapdiv", am4maps.MapChart);
+                    map.geodata = am4geodata_worldLow;
+                    map.projection = new am4maps.projections.Mercator();
+                    var polygonSeries = new am4maps.MapPolygonSeries();
+                    polygonSeries.useGeodata = true;
+                    map.series.push(polygonSeries);
+
+                </script>
+
+
+                <!-- Footer -->
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright &copy; Your Website 2019</span>
+                        </div>
+                    </div>
+                </footer>
+                <!-- End of Footer -->
+
+                s                <!-- End of Content Wrapper -->
 
             </div>
-                
-            <div class="card shadow mb-4" style="height: 100%">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Общая статистика</h6>
-                </div>
-                <div class="card-body">
-                  <div class="chartdiv" style="height: 23em;"></div>
-                </div>
-            </div>
-            <script>
-              am4core.useTheme(am4themes_animated);
-              am4core.useTheme(am4themes_material);
+            <!-- End of Page Wrapper -->
 
-              var chart = am4core.create("chartdiv", am4charts.XYChart);
+            <!-- Scroll to Top Button-->
+            <a class="scroll-to-top rounded" href="#page-top">
+                <i class="fas fa-angle-up"></i>
+            </a>
 
-              chart.colors.step = 1;
-
-              chart.data = generateChartData();
-
-              var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-              dateAxis.renderer.minGridDistance = 1;
-
-              function createAxisAndSeries(field, name, opposite, bullet) {
-                var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-                if(chart.yAxes.indexOf(valueAxis) != 0){
-                  valueAxis.syncWithAxis = chart.yAxes.getIndex(0);
-                }
-
-                var series = chart.series.push(new am4charts.LineSeries());
-                series.dataFields.valueY = field;
-                series.dataFields.dateX = "date";
-                series.strokeWidth = 2;
-                series.yAxis = valueAxis;
-                series.name = name;
-                series.tooltipText = "{name}: [bold]{valueY}[/]";
-                series.tensionX = 0.8;
-                series.showOnInit = true;
-
-                var interfaceColors = new am4core.InterfaceColorSet();
-
-                switch(bullet) {
-                  case "triangle":
-                    var bullet = series.bullets.push(new am4charts.Bullet());
-                    bullet.width = 12;
-                    bullet.height = 12;
-                    bullet.horizontalCenter = "middle";
-                    bullet.verticalCenter = "middle";
-
-                    var triangle = bullet.createChild(am4core.Triangle);
-                    triangle.stroke = interfaceColors.getFor("background");
-                    triangle.strokeWidth = 2;
-                    triangle.direction = "top";
-                    triangle.width = 12;
-                    triangle.height = 12;
-                    break;
-                  case "rectangle":
-                    var bullet = series.bullets.push(new am4charts.Bullet());
-                    bullet.width = 10;
-                    bullet.height = 10;
-                    bullet.horizontalCenter = "middle";
-                    bullet.verticalCenter = "middle";
-
-                    var rectangle = bullet.createChild(am4core.Rectangle);
-                    rectangle.stroke = interfaceColors.getFor("background");
-                    rectangle.strokeWidth = 2;
-                    rectangle.width = 10;
-                    rectangle.height = 10;
-                    break;
-                  default:
-                    var bullet = series.bullets.push(new am4charts.CircleBullet());
-                    bullet.circle.stroke = interfaceColors.getFor("background");
-                    bullet.circle.strokeWidth = 2;
-                    break;
-                }
-
-                valueAxis.renderer.line.strokeOpacity = 1;
-                valueAxis.renderer.line.strokeWidth = 2;
-                valueAxis.renderer.line.stroke = series.stroke;
-                valueAxis.renderer.labels.template.fill = series.stroke;
-                valueAxis.renderer.opposite = opposite;
-              }
-
-              createAxisAndSeries("likes", "Лайки", false, "circle");
-              createAxisAndSeries("reposts", "Репосты", false, "triangle")
-              createAxisAndSeries("views", "Просмотры", true, "triangle");
-              createAxisAndSeries("comments", "Комментарии", true, "rectangle");
-
-              chart.legend = new am4charts.Legend();
-
-              chart.cursor = new am4charts.XYCursor();
-
-              function generateChartData() {
-                var chartData = [];
-
-                var likes = 1600;
-                var reposts = 2900;
-                var views = 8700;
-                var comments = 5000;
-                var data = {{ data|safe }};
-
-                for (var i = 0; i < data.length; i++) {
-                    chartData.push({
-                      date: i,
-                      likes: data[i]["likes"],
-                      reposts: data[i]["reposts"],
-                      views: data[i]["views"],
-                      comments: data[i]["comments"]
-                    });
-                }
-
-                return chartData;
-              }
-
-              generateChartData()
-            </script>
-
-          <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Топ пост</h6>
-                    <input type="checkbox">
-                </div>
-                <div class="card-body">
-                    <div id="vk_post_1_45616"></div>
-                        <script type="text/javascript">
-                            (function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = "https://vk.com/js/api/openapi.js?167"; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'vk_openapi_js'));
-                            (function() {
-                            window.VK && VK.Widgets && VK.Widgets.Post && VK.Widgets.Post("vk_post_1_45616", 1, 45616, 'ZMk4b98xpQZMJJRXVsL1ig', {width: 500}) || setTimeout(arguments.callee, 50);  }());
-                        </script>
+            <!-- Logout Modal-->
+            <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">Select "Logout" below if you are ready to end your current session.
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                            <a class="btn btn-primary" href="login.html">Logout</a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
+            <!-- Bootstrap core JavaScript-->
+            <script src="vendor/jquery/jquery.min.js"></script>
+            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-      <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
-          </div>
-        </div>
-      </footer>
-      <!-- End of Footer -->
+            <!-- Core plugin JavaScript-->
+            <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    </div>
-    <!-- End of Content Wrapper -->
+            <!-- Custom scripts for all pages-->
+            <script src="js/sb-admin-2.min.js"></script>
 
-  </div>
-  <!-- End of Page Wrapper -->
+            <!-- Page level plugins -->
+            <script src="vendor/chart.js/Chart.min.js"></script>
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
-  <script src="vendor/chart.js/Chart.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
-  <script src="js/demo/chart-bar-demo.js"></script>
+            <!-- Page level custom scripts -->
+            <script src="js/demo/chart-area-demo.js"></script>
+            <script src="js/demo/chart-pie-demo.js"></script>
+            <script src="js/demo/chart-bar-demo.js"></script>
 
 </body>
 

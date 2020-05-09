@@ -1,7 +1,6 @@
 import requests
 import json
-import time
-
+from datetime import datetime
 
 class Vk():
     def __init__(self, login, password):
@@ -30,32 +29,30 @@ class Vk():
          'v': '5.103'})
         return req.content
 
-    def get_average_posts_data(self, domain, count):
-        data = json.loads(self.get_posts(domain, count))
-        print(data)
-        average = [0, 0, 0, 0]  # likes, comments, reposts, views
-        for i in data['response']['items']:
-            average[0] += i['likes']['count']
-            average[1] += i['comments']['count']
-            average[2] += i['reposts']['count']
-            average[3] += i['views']['count']
-
-        items_col = len(data['response']['items'])
-        for i in range(4):
-            average[i] //= items_col
-        return average
-
     def get_all_statistic(self, domain, count):
         data = json.loads(self.get_posts(domain, count))
-        result = []
+        result = {
+            "dates": [],
+            "likes": [],
+            "comments": [],
+            "reposts": [],
+            "views": []
+        }
         average = [0, 0, 0, 0]  # likes, comments, reposts, views
         for i in data['response']['items']:
-            result.append({"date": time.ctime(i["date"]),
-                           "likes": i['likes']['count'],
-                           "comments": i['comments']['count'],
-                           "reposts": i['reposts']['count'],
-                           "views": i['views']['count']
-                           })
+            print(i['date'])
+            # result["dates"].append(datetime.utcfromtimestamp(i['date']).strftime("%Y-%M-%d %H:%M:%S"))
+            result["dates"].append(i['date'] * 1000)
+            result["likes"].append(i['likes']['count'])
+            result["comments"].append(i['comments']['count'])
+            result["reposts"].append(i['reposts']['count'])
+            result["views"].append(i['views']['count'])
+            # result.append({"date": time.strftime("dd/MM/yy HH:mm", i['date']),
+            #                "likes": i['likes']['count'],
+            #                "comments": i['comments']['count'],
+            #                "reposts": i['reposts']['count'],
+            #                "views": i['views']['count']
+            #                })
             average[0] += i['likes']['count']
             average[1] += i['comments']['count']
             average[2] += i['reposts']['count']

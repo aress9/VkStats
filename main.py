@@ -19,6 +19,8 @@ def index():
 def stat():
     group = request.args.get('group')
     count = request.args.get('count')
+    if 'vk.com' in group:
+        group = group[group.index('/')]
     group_name, group_image = vk.get_profile_info(group)
     average, data = vk.get_all_statistic(group, int(count))
     print(json.dumps(data))
@@ -26,9 +28,14 @@ def stat():
                            comments=average[1],
                            reposts=average[2],
                            views=average[3],
-                           data=json.dumps(data),
+                           group=group,
                            group_name=group_name,
-                           group_image=group_image
+                           group_image=group_image,
+                           likes_data=data['likes'],
+                           comments_data=data['comments'],
+                           reposts_data=data['reposts'],
+                           views_data=data['views'],
+                           time_data=data['dates']
                            )
 
 
