@@ -1,6 +1,8 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, Blueprint
 from vk import Vk
 import json
+
+main = Blueprint('main', __name__)
 
 app = Flask(__name__, static_folder='static/')
 
@@ -23,7 +25,7 @@ def stat():
         group = group[group.index('/')]
     group_name, group_image = vk.get_profile_info(group)
     average, data = vk.get_all_statistic(group, int(count))
-    print(json.dumps(data))
+    map_data = vk.get_countries(group)
     return render_template('index.html', likes=average[0],
                            comments=average[1],
                            reposts=average[2],
@@ -35,7 +37,8 @@ def stat():
                            comments_data=data['comments'],
                            reposts_data=data['reposts'],
                            views_data=data['views'],
-                           time_data=data['dates']
+                           time_data=data['dates'],
+                           map_data=map_data
                            )
 
 

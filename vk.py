@@ -1,5 +1,6 @@
 import requests
 import json
+import pycountry
 from datetime import datetime
 
 class Vk():
@@ -63,3 +64,34 @@ class Vk():
             average[i] //= items_col
 
         return (average, result)
+
+    def get_countries(self, domain, count=1000):
+        data = requests.get("https://api.vk.com/method/groups.getMembers", params={
+            "access_token": self.access_token,
+            "group_id": domain,
+            "count": count,
+            "lang": "en",
+            "fields": "country",
+            "v": "5.103"
+        })
+        raw = {}
+        data = json.loads(data.content)['response']
+        for i in data['items']:
+            if 'country' in i:
+                if i['country']['title'] == 'Russia': i['country']['title'] = 'Russian Federation'
+                if i['country']['title'] == 'USA': i['country']['title'] = 'United States'
+                if i['country']['title'] == 'Falkland Islands': i['country']['title'] = 'Falkland Islands (Malvinas)'
+                if i['country']['title'] in raw:
+                    raw[i['country']['title']] += 1
+                else:
+                    raw[i['country']['title']] = 1
+        result = []
+        print(raw)
+        for i in list(raw):
+            print(i)
+            result.append({
+                "id": pycountry.countries.get(name=i).alpha_2,
+                "name": i,
+                "value": raw[i]
+            })
+        return result
