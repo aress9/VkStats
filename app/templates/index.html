@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>VkStats</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicons -->
+    <link href="static/img/favicon.png" rel="icon">
+    <link href="static/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,500,600,700,700i|Montserrat:300,400,500,600,700"
+          rel="stylesheet">
+
+    <!-- Bootstrap CSS File -->
+    <link href="static/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Libraries CSS Files -->
+    <link href="static/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="static/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="static/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="static/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="static/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+    <link href="static/css/style.css" rel="stylesheet">
+
+    <!-- =======================================================
+      Theme Name: Rapid
+      Theme URL: https://bootstrapmade.com/rapid-multipurpose-bootstrap-business-template/
+      Author: BootstrapMade.com
+      License: https://bootstrapmade.com/license/
+    ======================================================= -->
+</head>
+
+<body>
+<header id="header">
+
+    <div id="topbar">
+        <div class="container">
+            <div class="social-links">
+                <a href="#" class="vk"><i class="fa fa-vk"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="logo float-left">
+            <!-- Uncomment below if you prefer to use an image logo -->
+            <h1 class="text-light"><a href="#intro" class="scrollto"><span>vkstats</span></a></h1>
+            <!-- <a href="#header" class="scrollto"><img src="img/logo.png" alt="" class="img-fluid"></a> -->
+        </div>
+
+    </div>
+</header><!-- #header -->
+
+<!--==========================
+  Intro Section
+============================-->
+<section id="intro" class="clearfix">
+    <div class="container d-flex h-100">
+        <div class="row justify-content-center align-self-center">
+            <div class="col-md-6 intro-info order-md-first order-last">
+                <h2>Лучшее Решение<br>Для Аналитики <span>Сообществ ВК!</span></h2>
+                <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4" class="getstat-group">
+                    <div class="input-group">
+                        <input id="group_input" type="search" placeholder="Ссылка ну группу..."
+                               aria-describedby="button-addon1"
+                               class="form-control border-0 bg-light rounded rounded-pill">
+                        <div class="input-group-append">
+                            <a id="button-addon1" type="submit" class="btn btn-link text-primary"
+                               href="javascript: goToPage();"><img src="static/img/start-button.svg" height="25"></a>
+                            <script type="text/javascript">
+                      function goToPage()
+                      {
+                          var url = "/stat?group=" + document.getElementById('group_input').value + "&count=" + document.getElementById('count_input').value;
+                          document.location.href = url;
+                      }
+
+
+
+
+                            </script>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4" class="getstat-group">
+                    <div class="input-group">
+                        <style>
+                        input[type=number]::-webkit-inner-spin-button {
+                            opacity: 1
+                        }
+
+
+
+
+                        </style>
+                        <p class="form-control border-0 bg-light rounded-pill" style="text-align: left">Кол-во постов
+                            для сбора</p>
+                        <input id="count_input" type="number" value="1" aria-describedby="button-addon1"
+                               style="background-color: #EBF5FA;" class="form-control border-0 rounded rounded-pill"
+                               max="100"
+                               min="1">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 intro-img order-md-last order-first">
+                <img src="static/img/features-2.svg" style="width: 100em; padding-left: 20px" alt="" class="img-fluid">
+            </div>
+        </div>
+
+    </div>
+</section><!-- #intro -->
+
+<main id="main">
+
+    <!--==========================
+      About Us Section
+    ============================-->
+    <section id="services" class="section-bg">
+        <div class="container">
+
+            <header class="section-header">
+                <h3>Преимущества</h3>
+            </header>
+
+            <div class="row">
+
+                <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-duration="1.4s">
+                    <div class="box">
+                        <div class="icon" style="background: #fceef3;"><i class="ion-ios-analytics-outline"
+                                                                          style="color: #ff689b;"></i></div>
+                        <h4 class="title"><a href="">Подробная статистика</a></h4>
+                        <p class="description">Информация о лайках, репостах, просмотрах и странах.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-duration="1.4s">
+                    <div class="box">
+                        <div class="icon" style="background: #fff0da;"><i class="ion-ios-bookmarks-outline"
+                                                                          style="color: #e98e06;"></i></div>
+                        <h4 class="title"><a href="">Визуализация</a></h4>
+                        <p class="description">Все данные предастваляются на графиках, таблицах и схемах.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-delay="0.1s" data-wow-duration="1.4s">
+                    <div class="box">
+                        <div class="icon" style="background: #e6fdfc;"><i class="ion-ios-paper-outline"
+                                                                          style="color: #3fcdc7;"></i></div>
+                        <h4 class="title"><a href="">Бесплатно</a></h4>
+                        <p class="description">Мы не требуем оплаты.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section><!-- #services -->
+
+    <!--==========================
+      Frequently Asked Questions Section
+    ============================-->
+    <section id="faq">
+        <div class="container">
+            <header class="section-header">
+                <h3>Часто задаваемые вопросы</h3>
+            </header>
+
+            <ul id="faq-list" class="wow fadeInUp">
+                <li>
+                    <a data-toggle="collapse" class="collapsed" href="#faq1">Не нарушает ли сервис политику ВКонтакте?
+                        <i class="ion-android-remove"></i></a>
+                    <div id="faq1" class="collapse" data-parent="#faq-list">
+                        <p>
+                            Нет, вся информация находится в открытом доступе, мы её только обрабатываем.
+                        </p>
+                    </div>
+                </li>
+
+                <li>
+                    <a data-toggle="collapse" href="#faq2" class="collapsed">Актульна ли информация? <i
+                            class="ion-android-remove"></i></a>
+                    <div id="faq2" class="collapse" data-parent="#faq-list">
+                        <p>
+                            Да, все данные обновляются в реальном времени.
+                        </p>
+                    </div>
+                </li>
+
+            </ul>
+
+        </div>
+    </section><!-- #faq -->
+
+</main>
+
+<!--==========================
+  Footer
+============================-->
+<footer id="footer" class="section-bg">
+    <div class="container">
+        <div class="credits">
+            Developed by <a href="https://vk.com/kirill.gluhih">DESIDE</a> <br>
+            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        </div>
+    </div>
+</footer><!-- #footer -->
+
+<a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+<!-- Uncomment below i you want to use a preloader -->
+<!-- <div id="preloader"></div> -->
+
+<!-- JavaScript Libraries -->
+<script src="static/lib/jquery/jquery.min.js"></script>
+<script src="static/lib/jquery/jquery-migrate.min.js"></script>
+<script src="static/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="static/lib/easing/easing.min.js"></script>
+<script src="static/lib/mobile-nav/mobile-nav.js"></script>
+<script src="static/lib/wow/wow.min.js"></script>
+<script src="static/lib/waypoints/waypoints.min.js"></script>
+<script src="static/lib/counterup/counterup.min.js"></script>
+<script src="static/lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="static/lib/isotope/isotope.pkgd.min.js"></script>
+<script src="static/lib/lightbox/js/lightbox.min.js"></script>
+<!-- Contact Form JavaScript File -->
+
+<!-- Template Main Javascript File -->
+<script src="static/js/main.js"></script>
+
+</body>
+</html>
