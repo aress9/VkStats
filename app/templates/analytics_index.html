@@ -1,0 +1,40 @@
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+{% extends 'admin/master.html' %}
+{% block body %}
+<div class="card shadow mb-4" style="height: 100%">
+    <h6 class="m-0 font-weight-bold text-primary">Статистика использований (по часам)</h6>
+    <div id="chartline"></div>
+</div>
+<script>
+                    var options = {
+                    series: [{
+                        name: "requests",
+                        data: {{ data }}
+                    }],
+                    chart: {
+                        id: 'requests',
+                        height: 400,
+                        type: 'line'
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    stroke: {
+                        curve: 'straight'
+                    },
+                    xaxis: {
+                        type: 'datetime',
+                        categories: {{ time|safe }}
+                    },
+                    tooltip: {
+                        x: {
+                            format: 'dd MMM yyyy HH:mm'
+                        },
+                    },
+                    };
+                    var chart = new ApexCharts(document.getElementById("chartline"), options)
+                    chart.render();
+
+</script>
+{% endblock %}

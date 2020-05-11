@@ -1,8 +1,10 @@
-from flask import Flask, render_template, request, Blueprint, redirect, flash, url_for
-from flask_login import login_user, login_required, logout_user
-from app import app, db, vk
-from app.models import User
+from flask import render_template, request, redirect, flash, url_for
+from flask_login import login_user, login_required, logout_user, current_user
+from app import app, db, checkAnalyticsDate
+from app.vk import Vk
+from app.models import User, Analytics
 from werkzeug.security import check_password_hash, generate_password_hash
+from requests import get
 import json
 
 
@@ -14,6 +16,7 @@ def index():
 @app.route('/stat')
 @login_required
 def stat():
+    vk = Vk(current_user.vk_token)
     group = request.args.get('group')
     count = request.args.get('count')
     if 'vk.com' in group:
@@ -21,6 +24,12 @@ def stat():
     group_name, group_image = vk.get_profile_info(group)
     average, data = vk.get_all_statistic(group, int(count))
     map_data = vk.get_countries(group)
+
+    checkAnalyticsDate()
+    analyt = Analytics.query.first()
+    analyt.requests += 1
+    db.session.commit()
+
     return render_template('stat.html', likes=average[0],
                            comments=average[1],
                            reposts=average[2],
@@ -74,10 +83,25 @@ def register():
             new_user = User(login=login, password=pass_hash)
             db.session.add(new_user)
             db.session.commit()
-            return redirect(url_for('login_page'))
+            login_user(new_user)
+            return redirect(url_for(f'register_vk'))
     else:
         flash('Заполните поля для регистрации')
     return render_template('register.html')
+
+
+@app.route('/register_vk', methods=['GET', 'POST'])
+def register_vk():
+    if request.args.get('code'):
+        data = get(
+            f'https://oauth.vk.com/access_token?client_id=7457856&client_secret=tr4P7JWfpNzgL00F34jE&redirect_uri=0422db37.ngrok.io/register_vk&code={request.args.get("code")}').content
+        print(data)
+        user = User.query.filter_by(login=current_user.login).first()
+        user.vk_token = json.loads(data)['access_token']
+        db.session.commit()
+        return redirect('index')
+
+    return render_template('register_vk.html')
 
 
 @app.route('/logout')

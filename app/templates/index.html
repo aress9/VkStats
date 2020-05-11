@@ -101,6 +101,8 @@
                                min="1">
                     </div>
                 </div>
+                {% elif current_user.is_authenticated and not current_user.vk_token %}
+                <h3>Чтобы воспользоваться сервисом,<br><a href="/register_vk">Привяжите аккаунт ВКонтакте</a></h3>
                 {% else %}
                 <h3>Чтобы воспользоваться сервисом,<br> <a href="/login">Войдите в аккаунт</a></h3>
                 {% endif %}

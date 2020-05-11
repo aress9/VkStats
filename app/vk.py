@@ -5,14 +5,15 @@ from datetime import datetime
 
 
 class Vk():
-    def __init__(self, login, password):
-        data = requests.post(
-            f"https://oauth.vk.com/token?grant_type=password&client_id=2274003&client_secret=hHbZxrka2uZ6jB1inYsH&username={login}&password={password}")
-        parsed_data = json.loads(data.content)
-        print(data.content)
-        self.access_token = parsed_data['access_token']
+    def __init__(self, access_token):
+        # data = requests.post(
+        #     f"https://oauth.vk.com/token?grant_type=password&client_id=2274003&client_secret=hHbZxrka2uZ6jB1inYsH&username={login}&password={password}")
+        # parsed_data = json.loads(data.content)
+        # print(data.content)
+        # self.access_token = parsed_data['access_token']
+        self.access_token = access_token
         if self.access_token:
-            print(f'Account was succesfully connected! - {parsed_data["user_id"]}')
+            print(f'Account was succesfully connected!')
 
     def get_profile_info(self, screenname):
         req = requests.get('https://api.vk.com/method/groups.getById', params={
@@ -45,19 +46,12 @@ class Vk():
         average = [0, 0, 0, 0]  # likes, comments, reposts, views
         for i in data['response']['items']:
             print(i['date'])
-            # result["dates"].append(datetime.utcfromtimestamp(i['date']).strftime("%Y-%M-%d %H:%M:%S"))
             result["dates"].append(i['date'] * 1000)
             result["likes"].append(i['likes']['count'])
             result["comments"].append(i['comments']['count'])
             result["reposts"].append(i['reposts']['count'])
             result["views"].append(i['views']['count'])
             result["labels"].append('https://vk.com/wall' + str(i['owner_id']) + '_' + str(i['id']))
-            # result.append({"date": time.strftime("dd/MM/yy HH:mm", i['date']),
-            #                "likes": i['likes']['count'],
-            #                "comments": i['comments']['count'],
-            #                "reposts": i['reposts']['count'],
-            #                "views": i['views']['count']
-            #                })
             average[0] += i['likes']['count']
             average[1] += i['comments']['count']
             average[2] += i['reposts']['count']
