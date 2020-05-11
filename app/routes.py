@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, Blueprint, redirect, flash, url_for
-from flask_login import login_user, login_required
+from flask_login import login_user, login_required, logout_user
 from app import app, db, vk
 from app.models import User
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -9,11 +9,10 @@ import json
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('stat.html')
+    return render_template('index.html')
 
-
-@login_required
 @app.route('/stat')
+@login_required
 def stat():
     group = request.args.get('group')
     count = request.args.get('count')
@@ -79,3 +78,9 @@ def register():
     else:
         flash('Заполните поля для регистрации')
     return render_template('register.html')
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect('index')
