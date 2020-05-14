@@ -1,6 +1,6 @@
-from flask import Flask
+from flask import Flask, redirect, url_for, request
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 from flask_admin import Admin, BaseView, expose
 from flask_admin.contrib.sqla import ModelView
 from datetime import datetime
@@ -28,6 +28,14 @@ def checkAnalyticsDate():
         db.session.commit()
 
 
+class UserModelView(ModelView):
+    def is_accessible(self):
+        return (current_user.is_active and current_user.is_admin and current_user.is_authenticated)
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('login_page', next=request.url))
+
+
 class AnalyticsView(BaseView):
     @expose('/')
     def index(self):
@@ -35,10 +43,16 @@ class AnalyticsView(BaseView):
         time = [i[0] * 1000 for i in db.session.query(Analytics.time).all()]
         return self.render('analytics_index.html', data=data, time=time)
 
+    def is_accessible(self):
+        return (current_user.is_active and current_user.is_admin and current_user.is_authenticated)
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('login_page', next=request.url))
+
 
 admin = Admin(app, name='vkstats', template_mode='bootstrap3')
 admin.add_view(AnalyticsView(name='Analytics', endpoint='analytics'))
-admin.add_view(ModelView(User, db.session))
+admin.add_view(UserModelView(User, db.session))
 
 from app import routes
 

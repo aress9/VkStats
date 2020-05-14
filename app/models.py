@@ -7,6 +7,7 @@ class User(db.Model, UserMixin):
     login = db.Column(db.String(128), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
     vk_token = db.Column(db.String(255), unique=True)
+    is_admin = db.Column(db.Boolean)
 
 
 class Analytics(db.Model):
