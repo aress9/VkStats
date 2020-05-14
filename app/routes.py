@@ -94,7 +94,7 @@ def register():
 def register_vk():
     if request.args.get('code'):
         data = get(
-            f'https://oauth.vk.com/access_token?client_id=7457856&client_secret=tr4P7JWfpNzgL00F34jE&redirect_uri=0422db37.ngrok.io/register_vk&code={request.args.get("code")}').content
+            f'https://oauth.vk.com/access_token?client_id=7457856&client_secret=tr4P7JWfpNzgL00F34jE&redirect_uri=http://b9ade7a0.ngrok.io/register_vk&code={request.args.get("code")}').content
         print(data)
         user = User.query.filter_by(login=current_user.login).first()
         user.vk_token = json.loads(data)['access_token']
